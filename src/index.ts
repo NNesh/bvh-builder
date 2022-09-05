@@ -1,8 +1,3 @@
-import { Builder } from "./types";
+import BVHBuilder from './BVHBuilder';
 
-
-export default class BVHBuilder implements Builder<string> {
-    build(): string {
-        throw new Error("Method not implemented.");
-    }
-}
+export default BVHBuilder;
