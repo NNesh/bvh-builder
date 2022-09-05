@@ -24,12 +24,10 @@ export interface Joint extends HeaderNode {
 
 export type BvhJoint = Joint | EndSite;
 
-export function IsEndSite(node: HeaderNode): node is EndSite
-{
+export function IsEndSite(node: HeaderNode): node is EndSite {
     return node.type === 'end-site';
 }
 
-export function IsJoint(node: HeaderNode): node is Joint
-{
+export function IsJoint(node: HeaderNode): node is Joint {
     return node.type === 'joint';
 }
