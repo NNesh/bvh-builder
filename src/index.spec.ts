@@ -198,5 +198,36 @@ describe("Builder", () => {
             });
         });
 
+        it("build is matching", () => {
+            builder
+                .header()
+                .setHierarchy({
+                    type: "root",
+                    name: "Root",
+                    offset: [1, 2],
+                    channels: ["Xrotation", "Xrotation"],
+                    children: [
+                        {
+                            type: "joint",
+                            name: "Leg",
+                            offset: [1, 2],
+                            channels: ["Xrotation", "Xrotation"],
+                            children: [
+                                {
+                                    type: "end-site",
+                                    name: "",
+                                    offset: [1, -2],
+                                    channels: [],
+                                }
+                            ],
+                        },
+                    ],
+                });
+
+            const expectingResult = "HIERARCHY\nROOT Root\n{\n\tOFFSET\t 1.00\t 2.00\n\tCHANNELS 2 Xrotation Xrotation\n\tJOINT Leg\n\t{\n\t\tOFFSET\t 1.00\t 2.00\n\t\tCHANNELS 2 Xrotation Xrotation\n\t\tEnd Site \n\t\t{\n\t\t\tOFFSET\t 1.00\t-2.00\n\t\t}\n\t}\n}\n";
+
+            assert.equal(builder.header().build(), expectingResult);
+        });
+
     });
 });

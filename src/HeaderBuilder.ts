@@ -1,11 +1,11 @@
 import { cloneDeep } from "lodash";
-import { Builder, BuilderContext, IsJoint, IsRoot, Root, Node, IsEndSite, Joint } from "./types";
+import { formatNumberToString } from "./helpers";
+import { Builder, BuilderContext, IsJoint, IsRoot, Root, Node, IsEndSite, Joint, EndSite } from "./types";
 
 
 export interface HeaderBuilder extends Builder<string> {
     setHierarchy(root: Root): void;
 }
-
 
 function checkNode(node: Node, parent: Joint | null) {
     if (IsJoint(node) || IsRoot(node)) {
@@ -47,6 +47,41 @@ function checkHierarchy(root: Root) {
     checkNode(root, null);
 }
 
+function getRowValues(values: (number | string)[]): string {
+    var result = "";
+
+    values.forEach((value) => result += `\t${typeof(value) === "string" ? value : formatNumberToString(value)}`);
+
+    return result;
+}
+
+function getTypeName(node: Node): string {
+    if (IsEndSite(node)) {
+        return "End Site";
+    }
+
+    return node.type.toUpperCase();
+}
+
+function nodeToString(node: Node, level: number = 0): string {
+    let result = "";
+    let tabs = "\t".repeat(level);
+    let typeName = getTypeName(node);
+
+    result += `${tabs}${typeName} ${!IsEndSite(node) ? node.name : ""}\n`;
+    result += `${tabs}{\n`;
+    result += `${tabs}\tOFFSET${getRowValues(node.offset)}\n`;
+
+    if (IsJoint(node) || IsRoot(node)) {
+        result += `${tabs}\tCHANNELS ${node.channels.length} ${node.channels.join(" ")}\n`;
+        result += node.children.map(child => nodeToString(child, level + 1)).join();
+    }
+
+    result += `${tabs}}\n`;
+
+    return result;
+}
+
 export default function getHeaderBuilder(context: BuilderContext): HeaderBuilder {
     return {
         setHierarchy(root: Root): void {
@@ -63,7 +98,11 @@ export default function getHeaderBuilder(context: BuilderContext): HeaderBuilder
             context.root = cloneDeep(root);
         },
         build(): string {
-            return "";
+            if (!context.root) {
+                throw new Error("Hierarchy is not provided");
+            }
+
+            return `HIERARCHY\n${nodeToString(context.root, 0)}`;
         },
     };
 }
