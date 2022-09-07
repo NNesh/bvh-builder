@@ -1,3 +1,1 @@
-import BVHBuilder from './BVHBuilder';
-
-export default BVHBuilder;
+export * from "./Builder";
