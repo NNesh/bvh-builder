@@ -32,7 +32,7 @@ function checkNode(node: Node, parent: Joint | null) {
         }
 
         if (parent.children.length > 1) {
-            throw new Error("A parent of the end site node cannot have more childrens than ");
+            throw new Error("A parent of the end site node cannot have more children than ");
         }
     } else {
         throw new Error("Unacceptable node!");
