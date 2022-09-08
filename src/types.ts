@@ -60,4 +60,5 @@ export interface Motion {
 export interface BuilderContext {
     root?: Root;
     motion?: Motion;
+    channelCount: number;
 }

@@ -9,7 +9,9 @@ export interface BVHBuilder extends Builder<string> {
 }
 
 export default function getBVHBuilder(): BVHBuilder {
-    const context: BuilderContext = {};
+    const context: BuilderContext = {
+        channelCount: 0,
+    };
 
     const headerBuilder = getHeaderBuilder(context);
     const motionBuilder = getMotionBuilder(context);
@@ -26,7 +28,7 @@ export default function getBVHBuilder(): BVHBuilder {
             return motionBuilder;
         },
         build(): string {
-            return headerBuilder.build() + "\n" + motionBuilder.build();
+            return headerBuilder.build() + motionBuilder.build();
         },
     };
 }

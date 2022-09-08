@@ -7,7 +7,7 @@ export interface HeaderBuilder extends Builder<string> {
     setHierarchy(root: Root): void;
 }
 
-function checkNode(node: Node, parent: Joint | null) {
+function checkNode(node: Node, parent: Joint | null): number {
     if (IsJoint(node) || IsRoot(node)) {
         if (node.children.length === 0) {
             throw new Error("Joint must have 1 or more children");
@@ -17,7 +17,12 @@ function checkNode(node: Node, parent: Joint | null) {
             throw new Error("Joint must have a name");
         }
 
-        node.children.forEach((child) => checkNode(child, node));
+        let channels = 0;
+        node.children.forEach((child) => {
+            channels += checkNode(child, node)
+        });
+
+        return channels + node.channels.length;
     } else if (IsEndSite(node)) {
         if (!parent) {
             throw new Error("End site node must have a parent");
@@ -26,17 +31,19 @@ function checkNode(node: Node, parent: Joint | null) {
         if (parent.children.length > 1) {
             throw new Error("A parent of the end site node cannot have more children than ");
         }
+
+        return 0;
     } else {
         throw new Error("Unacceptable node!");
     }
 }
 
-function checkHierarchy(root: Root) {
+function checkHierarchy(root: Root): number {
     if (!IsRoot(root)) {
         throw new Error("Top node should be a root");
     }
 
-    checkNode(root, null);
+    return checkNode(root, null);
 }
 
 function getTypeName(node: Node): string {
@@ -77,8 +84,7 @@ export default function getHeaderBuilder(context: BuilderContext): HeaderBuilder
                 throw new Error("null is not allowed");
             }
 
-            checkHierarchy(root);
-
+            context.channelCount = checkHierarchy(root);
             context.root = cloneDeep(root);
         },
         build(): string {
