@@ -2,10 +2,12 @@
   "name": "bvh-builder",
   "version": "1.1.0",
   "description": "This is a package to build BioVision Hierarchy.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tslint -c tslint.json -e 'src/**/*.spec.ts' 'src/**/*.ts' && tsc",
-    "test": "ts-mocha -p tsconfig.json src/**/*.spec.ts"
+    "test": "ts-mocha -p tsconfig.json src/**/*.spec.ts",
+    "prepare" : "npm run build"
   },
   "repository": {
     "type": "git",
@@ -34,5 +36,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
