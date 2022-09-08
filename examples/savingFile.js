@@ -27,10 +27,11 @@ builder
             },
         ],
     });
-builder.motion().init(0.013);
-builder.motion().addFrame({
-    values: [0, 1, -2, 0, 1, -2, 0, 0, 0],
-});
+builder.motion()
+    .init(0.013)
+    .addFrame({
+        values: [0, 1, -2, 0, 1, -2, 0, 0, 0],
+    });
 
 
 fs.writeFile("out.bvh", builder.build(), (err) => {

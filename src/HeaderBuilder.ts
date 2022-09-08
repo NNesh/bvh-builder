@@ -4,7 +4,7 @@ import { Builder, BuilderContext, IsJoint, IsRoot, Root, Node, IsEndSite, Joint 
 
 
 export interface HeaderBuilder extends Builder<string> {
-    setHierarchy(root: Root): void;
+    setHierarchy(root: Root): HeaderBuilder;
 }
 
 function checkNode(node: Node, parent: Joint | null): number {
@@ -75,7 +75,7 @@ function nodeToString(node: Node, level: number = 0): string {
 
 export default function getHeaderBuilder(context: BuilderContext): HeaderBuilder {
     return {
-        setHierarchy(root: Root): void {
+        setHierarchy(root: Root): HeaderBuilder {
             if (context.motion) {
                 throw new Error("Changing the hierarchy is not allowed after motion creating");
             }
@@ -86,6 +86,8 @@ export default function getHeaderBuilder(context: BuilderContext): HeaderBuilder
 
             context.channelCount = checkHierarchy(root);
             context.root = cloneDeep(root);
+
+            return this;
         },
         build(): string {
             if (!context.root) {

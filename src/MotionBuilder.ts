@@ -4,13 +4,13 @@ import { Builder, BuilderContext, Frame } from "./types";
 const ERR_INIT_MSG = "Motion is not initialized. Please, call the 'init' method to initialize it.";
 
 export interface MotionBuilder extends Builder<string> {
-    init(period: number): void;
-    addFrame(frame: Frame): void;
+    init(period: number): MotionBuilder;
+    addFrame(frame: Frame): MotionBuilder;
 }
 
 export default function getMotionBuilder(context: BuilderContext): MotionBuilder {
     return {
-        init(period: number): void {
+        init(period: number): MotionBuilder {
             if (context.motion) {
                 throw new Error("Motion context has been already initialized");
             }
@@ -18,8 +18,10 @@ export default function getMotionBuilder(context: BuilderContext): MotionBuilder
             context.motion = {
                 period,
             };
+
+            return this;
         },
-        addFrame(frame: Frame): void {
+        addFrame(frame: Frame): MotionBuilder {
             if (!context.motion) {
                 throw new Error(ERR_INIT_MSG);
             }
@@ -39,6 +41,8 @@ export default function getMotionBuilder(context: BuilderContext): MotionBuilder
             });
 
             context.motion.frames.push(frame);
+
+            return this;
         },
         build(): string {
             if (!context.motion) {
