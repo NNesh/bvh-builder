@@ -2,13 +2,19 @@ export interface Builder<R> {
     build(): R;
 }
 
-export type Channel = "Xposition" | "Yposition" | "Zposition" | "Xrotation" | "Yrotation" | "Zrotation";
+export type Channel = "Xposition" | "Yposition" | "Zposition" | "Zrotation" | "Xrotation" | "Yrotation";
 
 export type NodeType = "end-site" | "joint" | "root";
 
+export interface Offset {
+    x: number;
+    y: number;
+    z: number;
+}
+
 export interface NodeParams {
     channels: Channel[];
-    offset: number[];
+    offset: Offset;
 }
 
 export interface Node extends NodeParams {

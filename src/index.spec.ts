@@ -29,7 +29,7 @@ describe("Builder", () => {
                     type: "joint",
                     name: "Test root",
                     channels: [],
-                    offset: [],
+                    offset: { x: 0, y: 0, z: 0 },
                     children: [],
                 })
             });
@@ -61,52 +61,14 @@ describe("Builder", () => {
             builder = getBVHBuilder();
         });
 
-        it("offset and channels matching is acceptable", () => {
-            assert.doesNotThrow(() => {
-                builder.header().setHierarchy({
-                    type: "root",
-                    name: "Root",
-                    offset: [1, 2],
-                    channels: ["Xrotation", "Xrotation"],
-                    children: [
-                        {
-                            type: "end-site",
-                            name: "",
-                            offset: [1, 2],
-                            channels: [],
-                        }
-                    ],
-                });
-            });
-        });
-
         it("0 children is not allowed for joints", () => {
             assert.throws(() => {
                 builder.header().setHierarchy({
                     type: "root",
                     name: "Root",
-                    offset: [1, 2],
+                    offset: { x: 0, y: 0, z: 0 },
                     channels: ["Xrotation", "Yrotation"],
                     children: [],
-                });
-            });
-        });
-
-        it("offset and channels mismatching is not allowed", () => {
-            assert.throws(() => {
-                builder.header().setHierarchy({
-                    type: "root",
-                    name: "Root",
-                    offset: [1, 2],
-                    channels: ["Xposition"],
-                    children: [
-                        {
-                            type: "end-site",
-                            name: "",
-                            offset: [1, 2],
-                            channels: [],
-                        }
-                    ],
                 });
             });
         });
@@ -116,13 +78,13 @@ describe("Builder", () => {
                 builder.header().setHierarchy({
                     type: "root",
                     name: "",
-                    offset: [1, 2],
+                    offset: { x: 0, y: 0, z: 0 },
                     channels: ["Xrotation", "Xrotation"],
                     children: [
                         {
                             type: "end-site",
                             name: "",
-                            offset: [1, 2],
+                            offset: { x: 0, y: 0, z: 0 },
                             channels: [],
                         }
                     ],
@@ -135,19 +97,19 @@ describe("Builder", () => {
                 builder.header().setHierarchy({
                     type: "root",
                     name: "Root",
-                    offset: [1, 2],
+                    offset: { x: 0, y: 0, z: 0 },
                     channels: ["Xrotation", "Xrotation"],
                     children: [
                         {
                             type: "joint",
                             name: "Leg",
-                            offset: [1, 2],
+                            offset: { x: 0, y: 0, z: 0 },
                             channels: ["Xrotation", "Xrotation"],
                             children: [
                                 {
                                     type: "end-site",
                                     name: "",
-                                    offset: [1, 2],
+                                    offset: { x: 0, y: 0, z: 0 },
                                     channels: [],
                                 }
                             ],
@@ -162,31 +124,31 @@ describe("Builder", () => {
                 builder.header().setHierarchy({
                     type: "root",
                     name: "Root",
-                    offset: [1, 2],
+                    offset: { x: 0, y: 0, z: 0 },
                     channels: ["Xrotation", "Xrotation"],
                     children: [
                         {
                             type: "joint",
                             name: "Hip",
-                            offset: [1, 2],
+                            offset: { x: 0, y: 0, z: 0 },
                             channels: ["Xrotation", "Xrotation"],
                             children: [
                                 {
                                     type: "end-site",
                                     name: "",
-                                    offset: [1, 2],
+                                    offset: { x: 0, y: 0, z: 0 },
                                     channels: [],
                                 },
                                 {
                                     type: "joint",
                                     name: "Knee",
-                                    offset: [5, 5],
+                                    offset: { x: 0, y: 0, z: 0 },
                                     channels: ["Xrotation", "Xrotation"],
                                     children: [
                                         {
                                             type: "end-site",
                                             name: "",
-                                            offset: [0.5, 0.5],
+                                            offset: { x: 0, y: 0, z: 0 },
                                             channels: [],
                                         }
                                     ],
@@ -204,19 +166,19 @@ describe("Builder", () => {
                 .setHierarchy({
                     type: "root",
                     name: "Root",
-                    offset: [1, 2],
+                    offset: { x: 1, y: 2, z: 1 },
                     channels: ["Xrotation", "Xrotation"],
                     children: [
                         {
                             type: "joint",
                             name: "Leg",
-                            offset: [1, 2],
+                            offset: { x: 1, y: 2, z: 1 },
                             channels: ["Xrotation", "Xrotation"],
                             children: [
                                 {
                                     type: "end-site",
                                     name: "",
-                                    offset: [1, -2],
+                                    offset: { x: 1, y: 2, z: -1 },
                                     channels: [],
                                 }
                             ],
@@ -224,7 +186,7 @@ describe("Builder", () => {
                     ],
                 });
 
-            const expectingResult = "HIERARCHY\nROOT Root\n{\n\tOFFSET\t 1.00\t 2.00\n\tCHANNELS 2 Xrotation Xrotation\n\tJOINT Leg\n\t{\n\t\tOFFSET\t 1.00\t 2.00\n\t\tCHANNELS 2 Xrotation Xrotation\n\t\tEnd Site \n\t\t{\n\t\t\tOFFSET\t 1.00\t-2.00\n\t\t}\n\t}\n}\n";
+            const expectingResult = "HIERARCHY\nROOT Root\n{\n\tOFFSET\t 1.00\t 2.00\t 1.00\n\tCHANNELS 2 Xrotation Xrotation\n\tJOINT Leg\n\t{\n\t\tOFFSET\t 1.00\t 2.00\t 1.00\n\t\tCHANNELS 2 Xrotation Xrotation\n\t\tEnd Site \n\t\t{\n\t\t\tOFFSET\t 1.00\t 2.00\t-1.00\n\t\t}\n\t}\n}\n";
 
             assert.equal(builder.header().build(), expectingResult);
         });

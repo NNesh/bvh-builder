@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 import { formatNumberToString } from "./helpers";
-import { Builder, BuilderContext, IsJoint, IsRoot, Root, Node, IsEndSite, Joint, EndSite } from "./types";
+import { Builder, BuilderContext, IsJoint, IsRoot, Root, Node, IsEndSite, Joint } from "./types";
 
 
 export interface HeaderBuilder extends Builder<string> {
@@ -17,18 +17,10 @@ function checkNode(node: Node, parent: Joint | null) {
             throw new Error("Joint must have a name");
         }
 
-        if (node.channels.length !== node.offset.length) {
-            throw new Error("Channels and offset values are mismatched");
-        }
-
         node.children.forEach((child) => checkNode(child, node));
     } else if (IsEndSite(node)) {
         if (!parent) {
             throw new Error("End site node must have a parent");
-        }
-
-        if (parent.offset.length !== node.offset.length) {
-            throw new Error("End site should have the same channels as its parent");
         }
 
         if (parent.children.length > 1) {
@@ -47,14 +39,6 @@ function checkHierarchy(root: Root) {
     checkNode(root, null);
 }
 
-function getRowValues(values: (number | string)[]): string {
-    var result = "";
-
-    values.forEach((value) => result += `\t${typeof(value) === "string" ? value : formatNumberToString(value)}`);
-
-    return result;
-}
-
 function getTypeName(node: Node): string {
     if (IsEndSite(node)) {
         return "End Site";
@@ -65,12 +49,12 @@ function getTypeName(node: Node): string {
 
 function nodeToString(node: Node, level: number = 0): string {
     let result = "";
-    let tabs = "\t".repeat(level);
-    let typeName = getTypeName(node);
+    const tabs = "\t".repeat(level);
+    const typeName = getTypeName(node);
 
     result += `${tabs}${typeName} ${!IsEndSite(node) ? node.name : ""}\n`;
     result += `${tabs}{\n`;
-    result += `${tabs}\tOFFSET${getRowValues(node.offset)}\n`;
+    result += `${tabs}\tOFFSET\t${formatNumberToString(node.offset.x)}\t${formatNumberToString(node.offset.y)}\t${formatNumberToString(node.offset.z)}\n`;
 
     if (IsJoint(node) || IsRoot(node)) {
         result += `${tabs}\tCHANNELS ${node.channels.length} ${node.channels.join(" ")}\n`;
