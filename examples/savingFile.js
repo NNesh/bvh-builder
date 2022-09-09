@@ -1,5 +1,5 @@
 const fs = require("fs");
-const getBuilder = require("../lib/Builder").default;
+const getBuilder = require("../lib").default;
 
 const builder = getBuilder();
 
