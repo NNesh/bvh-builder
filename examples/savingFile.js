@@ -1,7 +1,7 @@
 const fs = require("fs");
-const getBuilder = require("../lib").default;
+const { getBvhBuilder } = require("../lib");
 
-const builder = getBuilder();
+const builder = getBvhBuilder();
 
 builder
     .header()
