@@ -1,7 +1,7 @@
 const fs = require("fs");
-const { getBvhBuilder } = require("../lib");
+const getBVHBuilder = require("../lib").default;
 
-const builder = getBvhBuilder();
+const builder = getBVHBuilder();
 
 builder
     .header()
@@ -19,9 +19,7 @@ builder
                 children: [
                     {
                         type: "end-site",
-                        name: "",
                         offset: { x: 1, y: 2, z: -1 },
-                        channels: [],
                     }
                 ],
             },

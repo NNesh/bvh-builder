@@ -12,15 +12,9 @@ export interface Offset {
     z: number;
 }
 
-export interface NodeParams {
-    channels: Channel[];
-    offset: Offset;
-}
-
-export interface Node extends NodeParams {
-    parent?: Node;
+export interface Node {
     type: NodeType;
-    name: string;
+    offset: Offset;
 }
 
 export interface EndSite extends Node {
@@ -29,6 +23,8 @@ export interface EndSite extends Node {
 
 export interface Joint extends Node {
     type: "joint" | "root";
+    name: string;
+    channels: Channel[];
     children: (Joint | EndSite)[];
 }
 
@@ -41,7 +37,7 @@ export function IsEndSite(node: Node): node is EndSite {
 }
 
 export function IsJoint(node: Node): node is Joint {
-    return node.type === "joint";
+    return node.type === "joint" || IsRoot(node);
 }
 
 export function IsRoot(node: Node): node is Joint {

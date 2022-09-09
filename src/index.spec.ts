@@ -83,9 +83,7 @@ describe("Builder", () => {
                     children: [
                         {
                             type: "end-site",
-                            name: "",
                             offset: { x: 0, y: 0, z: 0 },
-                            channels: [],
                         }
                     ],
                 });
@@ -108,9 +106,7 @@ describe("Builder", () => {
                             children: [
                                 {
                                     type: "end-site",
-                                    name: "",
                                     offset: { x: 0, y: 0, z: 0 },
-                                    channels: [],
                                 }
                             ],
                         },
@@ -135,9 +131,7 @@ describe("Builder", () => {
                             children: [
                                 {
                                     type: "end-site",
-                                    name: "",
                                     offset: { x: 0, y: 0, z: 0 },
-                                    channels: [],
                                 },
                                 {
                                     type: "joint",
@@ -147,9 +141,7 @@ describe("Builder", () => {
                                     children: [
                                         {
                                             type: "end-site",
-                                            name: "",
                                             offset: { x: 0, y: 0, z: 0 },
-                                            channels: [],
                                         }
                                     ],
                                 },
@@ -177,9 +169,7 @@ describe("Builder", () => {
                             children: [
                                 {
                                     type: "end-site",
-                                    name: "",
                                     offset: { x: 1, y: 2, z: -1 },
-                                    channels: [],
                                 }
                             ],
                         },
@@ -208,9 +198,7 @@ describe("Builder", () => {
                             children: [
                                 {
                                     type: "end-site",
-                                    name: "",
                                     offset: { x: 1, y: 2, z: -1 },
-                                    channels: [],
                                 }
                             ],
                         },
@@ -254,9 +242,7 @@ describe("Builder", () => {
                             children: [
                                 {
                                     type: "end-site",
-                                    name: "",
                                     offset: { x: 1, y: 2, z: -1 },
-                                    channels: [],
                                 }
                             ],
                         },
@@ -318,9 +304,7 @@ describe("Builder", () => {
                             children: [
                                 {
                                     type: "end-site",
-                                    name: "",
                                     offset: { x: 1, y: 2, z: -1 },
-                                    channels: [],
                                 }
                             ],
                         },

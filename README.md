@@ -4,7 +4,14 @@
 This is a NPM module to build BVH (BioVision Hierarchy). This module convert JSON to BVH format.
 
 ## Basic usage
-```
+```js
+// ES6
+import getBVHBuilder from "bvh-builder";
+
+// CommonJS
+const getBVHBuilder = require("bvh-builder").default;
+
+
 const builder = getBVHBuilder();
 
 builder
@@ -23,19 +30,18 @@ builder
                 children: [
                     {
                         type: "end-site",
-                        name: "",
                         offset: { x: 0, y: 5, z: 0 },
-                        channels: [],
                     }
                 ],
             },
         ],
     });
 
-builder.motion().init(0.013);
-builder.motion().addFrame({
-    values: [0, 1, -2, 0, 1, -2, 0, 0, 0],
-});
+builder.motion()
+    .init(0.013)
+    .addFrame({
+        values: [0, 1, -2, 0, 1, -2, 0, 0, 0],
+    });
 
 const output = builder.build();
 

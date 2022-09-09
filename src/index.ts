@@ -1,3 +1,1 @@
-export {
-    default as getBvhBuilder,
-} from "./Builder";
+export { default } from "./Builder";

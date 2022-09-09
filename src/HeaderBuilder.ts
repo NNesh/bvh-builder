@@ -8,7 +8,7 @@ export interface HeaderBuilder extends Builder<string> {
 }
 
 function checkNode(node: Node, parent: Joint | null): number {
-    if (IsJoint(node) || IsRoot(node)) {
+    if (IsJoint(node)) {
         if (node.children.length === 0) {
             throw new Error("Joint must have 1 or more children");
         }
@@ -58,12 +58,13 @@ function nodeToString(node: Node, level: number = 0): string {
     let result = "";
     const tabs = "\t".repeat(level);
     const typeName = getTypeName(node);
+    const name = IsJoint(node) ? node.name : "";
 
-    result += `${tabs}${typeName} ${!IsEndSite(node) ? node.name : ""}\n`;
+    result += `${tabs}${typeName} ${name}\n`;
     result += `${tabs}{\n`;
     result += `${tabs}\tOFFSET\t${formatNumberToString(node.offset.x)}\t${formatNumberToString(node.offset.y)}\t${formatNumberToString(node.offset.z)}\n`;
 
-    if (IsJoint(node) || IsRoot(node)) {
+    if (IsJoint(node)) {
         result += `${tabs}\tCHANNELS ${node.channels.length} ${node.channels.join(" ")}\n`;
         result += node.children.map(child => nodeToString(child, level + 1)).join();
     }
