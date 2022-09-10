@@ -1,6 +1,7 @@
-import { cloneDeep } from "lodash";
 import { formatNumberToString } from "./helpers";
 import { Builder, BuilderContext, IsJoint, IsRoot, Root, Node, IsEndSite, Joint } from "./types";
+
+import cloneDeep = require("lodash/cloneDeep");
 
 
 export interface HeaderBuilder extends Builder<string> {

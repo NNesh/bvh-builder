@@ -1,6 +1,6 @@
 {
   "name": "bvh-builder",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "This is a package to build BioVision Hierarchy.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
